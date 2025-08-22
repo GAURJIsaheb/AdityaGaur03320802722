@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TIME - Featured Voices</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: white;
+      color: red;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Left side: TIME + hamburger */
+    .left-header {
+      display: flex;
+      align-items: center;
+      gap: 20px; 
+    }
+
+    .hamburger {
+      color: #000;
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    .hamburger::before {
+      content: '\2630'; /* Unicode hamburger */
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 28px;
+      color: red;
+    }
+
+    header input {
+      padding: 5px;
+      border: none;
+      border-radius: 3px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+
+    .featured-voices, .latest-stories {
+      font-family: "Montserrat", sans-serif;
+    }
+
+    .featured-voices {
+      width: 70%;
+      margin-left: 3vw;
+      border-left: 5px solid red;
+      padding-left: 10px;
+    }
+
+    .latest-stories {
+      margin-right:-3vw;
+      width: 20%;
+      background-color: rgb(255, 255, 13);
+      padding: 10px;
+    }
+
+    h2 {
+      font-family: "Montserrat", sans-serif;
+      color: black;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .article {
+      margin-bottom: 15px;
+    }
+
+    .article a {
+      color: #000;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .article a:hover {
+      text-decoration: underline;
+    }
+
+    .latest-stories .article {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .latest-stories h2 {
+      display: flex;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    .name {
+      font-style: inherit;
+      color: red;
+      font-weight: bold;
+    }
+
+    .voices-columns {
+      display: flex;
+      gap: 20px;
+    }
+
+    .voices-columns .col {
+       flex: 1;
+    }
+
+    .featured-voices h2 {
+      font-weight:600;
+      font-size: 20px;
+      margin-bottom: 6vh;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left-header">
+      <div class="hamburger"></div>
+      <span class="logo">TIME</span>
+    </div>
+    <input type="text" placeholder="Search...">
+  </header>
+
+  <div class="container">
+    <div class="featured-voices">
+      <h2>FEATURED VOICES</h2>
+      <div class="voices-columns">
+        <div class="col">
+          <div class="article"><a href="#"><span class="name">Anatol Lieven</span><br>Russia Has Been Warning the West About Ukraine for Decades</a></div>
+          <div class="article"><a href="#"><span class="name">Ismat Ara</span><br>How It Feels to Be a Muslim Woman Sold by India's Right Wing</a></div>
+          <div class="article"><a href="#"><span class="name">Robert J. Davis</span><br>Why You Shouldn't Exercise to Lose Weight</a></div>
+        </div>
+        <div class="col">
+          <div class="article"><a href="#"><span class="name">Yohanca Delgado</span><br>The Life-Changing Practice That Will Help You Feel More Gratitude</a></div>
+          <div class="article"><a href="#"><span class="name">W. Kamau Bell</span><br>There's So Much More to Say About Bill Cosby</a></div>
+          <div class="article"><a href="#"><span class="name">Christina Bu</span><br>What Norway Can Teach the World About Switching to Electric Vehicles</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest stories will be populated dynamically -->
+    <div class="latest-stories">
+      <h2>LATEST STORIES</h2>
+      <div id="stories-container"></div>
+    </div>
+  </div>
+
+
+  
+  <script>
+    async function loadStories() {
+      try {
+        const response = await fetch("http://localhost:3000/getTimeStories");
+        const stories = await response.json();
+
+        const container = document.getElementById("stories-container");
+        container.innerHTML = "";
+
+        stories.forEach(story => {
+          const div = document.createElement("div");
+          div.classList.add("article");
+          div.innerHTML = `<a href="${story.link}" target="_blank">${story.title}</a>`;
+          container.appendChild(div);
+        });
+      } catch (error) {
+        console.error("Error loading stories:", error);
+      }
+    }
+
+    loadStories();
+  </script>
+</body>
+</html>
