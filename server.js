@@ -26,7 +26,7 @@ function fetchStories(callback) {
         let stories = [];
 
         while ((match = regex.exec(xml)) !== null && stories.length < 6) {
-          let title = match[1].replace(/<!\[CDATA\[|\]\]>/g, "").trim(); // Remove CDATA tags
+          let title = match[1].replace(/<!\[CDATA\[|\]\]>/g, "").trim(); 
           let link = match[2].trim();
           if (title && link && link.includes("time.com")) {
             stories.push({ title, link });
